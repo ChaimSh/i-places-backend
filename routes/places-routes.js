@@ -20,6 +20,11 @@ router.get('/:pid', (req, res, next) => {
     const place = DUMMY_PLACES.find(p => {
         return p.id === placeId;
     })
+
+    if (!place) {
+       return res.status(404).json({message: 'Could not find a place for the provided id'});
+    }
+
     res.json({place});
 });
 
