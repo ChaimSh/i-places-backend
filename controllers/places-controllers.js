@@ -49,7 +49,7 @@ const getPlacesByUserId = (req, res, next) => {
 const createPlace = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        next(new HttpError('Invalid Inputs passed', 422));
+        return next(new HttpError('Invalid Inputs passed', 422));
     }
 
 
