@@ -17,3 +17,5 @@ async function getCoordsForAddress(address) {
   
   return coordinates;
 }
+
+module.exports = getCoordsForAddress;
