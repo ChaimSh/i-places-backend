@@ -55,6 +55,9 @@ const createPlace = async (req, res, next) => {
 
 
     const { title, description, coordinates, address, creator } = req.body;
+    
+    const coordinates = await getCoordsForAddress(address);
+    
     const createdPlace = {
         id: uuid(),
         title,
