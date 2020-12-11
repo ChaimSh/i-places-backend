@@ -31,7 +31,9 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-.connect()
+.connect(
+'set up connection to database here. Link required.' 
+)
 .then(() => {
   app.listen(5000);
 })
