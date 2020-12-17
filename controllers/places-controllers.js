@@ -69,9 +69,17 @@ const createPlace = async (req, res, next) => {
         location: coordinates,
         image: 'url from internet of a place',
         creator
-    }) 
+    }); 
 
-    DUMMY_PLACES.push(createdPlace);
+    try {
+      await createdPlace.save();
+    } catch {err} {
+        const error = new HttpError(
+            'Creating place failed. Please try again.', 500
+        );
+        return next(error);
+    }
+     
 
     res.status(201).json({place: createdPlace});
 };
