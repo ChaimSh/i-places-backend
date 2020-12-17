@@ -18,9 +18,16 @@ let DUMMY_PLACES = [{
 
 
 
-const getPlaceById = (req, res, next) => {
+const getPlaceById = async (req, res, next) => {
     const placeId = req.params.pid;
-    const place = Place.findById(placeId);
+   try{
+    const place = await Place.findById(placeId);
+   } catch (err) {
+     const error = new HttpError(
+       "Sorry couldn't find that place.", 500
+     )
+   }
+
 
     if (!place) {
        throw new HttpError('Could not find a place for provded id', 404);
@@ -71,7 +78,7 @@ const createPlace = async (req, res, next) => {
 
     try {
       await createdPlace.save();
-    } catch {err} {
+    } catch (err) {
         const error = new HttpError(
             'Creating place failed. Please try again.', 500
         );
