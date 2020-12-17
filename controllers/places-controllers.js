@@ -33,10 +33,11 @@ const getPlaceById = async (req, res, next) => {
 
 
     if (!place) {
-       throw new HttpError('Could not find a place for provded id', 404);
+       const error = new HttpError('Could not find a place for provded id', 404);
+      return next(error);
     }
 
-    res.json({place});
+    res.json({place: place.toObject(getters: true)});
 };
 
 const getPlacesByUserId = (req, res, next) => {
