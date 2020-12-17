@@ -2,7 +2,7 @@ const uuid = require("uuid/v4");
 const HttpError = require('../models/http-error');
 const {validationResult} = require('express-validator');
 const getCoordsForAddress = require('../util/lacation')
-
+const Place = require('../models/place');
 
 let DUMMY_PLACES = [{
     id: 'p1',
@@ -62,14 +62,15 @@ const createPlace = async (req, res, next) => {
     } catch (error) {
         return next(error);
     }
-    const createdPlace = {
-        id: uuid(),
+    const createdPlace = new Place({
         title,
         description,
-        lacation: coordinates,
         address,
+        location: coordinates,
+        image: 'url from internet of a place',
         creator
-    };
+    }) 
+
     DUMMY_PLACES.push(createdPlace);
 
     res.status(201).json({place: createdPlace});
