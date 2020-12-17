@@ -20,12 +20,15 @@ let DUMMY_PLACES = [{
 
 const getPlaceById = async (req, res, next) => {
     const placeId = req.params.pid;
-   try{
-    const place = await Place.findById(placeId);
+     let place;
+   
+    try{
+     place = await Place.findById(placeId);
    } catch (err) {
      const error = new HttpError(
        "Sorry couldn't find that place.", 500
-     )
+     );
+     return next(error);
    }
 
 
