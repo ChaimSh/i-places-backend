@@ -42,7 +42,7 @@ const getPlaceById = async (req, res, next) => {
 
 const getPlacesByUserId = (req, res, next) => {
     const userId = req.params.uid;
-    const places = Place.
+    const places = Place.find({ creator: userId });
 
     if (!places || places.length === 0) {
        return next(
