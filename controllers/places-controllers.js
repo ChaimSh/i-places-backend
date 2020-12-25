@@ -121,10 +121,19 @@ const updatePlace = async (req, res, next) => {
         return next(error);
     }
 
-    updatedPlace.title = title;
-    updatedPlace.description = description;
+    place.title = title;
+    place.description = description;
 
-    res.status(200).json({place: updatePlace});
+    try {
+        await place.save(); 
+    } catch (err) {
+        const error = new HttpError(
+            'Could not update place', 500
+        );
+        return next(error);
+    }
+
+    res.status(200).json({ place: place.toObject({ getters: true }) });
 };
 
 const deletePlace = (req, res, next) => {
