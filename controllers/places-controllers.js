@@ -37,14 +37,12 @@ const getPlaceById = async (req, res, next) => {
       return next(error);
     }
 
-    res.json({place: place.toObject(getters: true)});
+    res.json({place: place.toObject({getters: true}) });
 };
 
 const getPlacesByUserId = (req, res, next) => {
     const userId = req.params.uid;
-    const places = DUMMY_PLACES.filter(p => {
-        return p.creator === userId;
-    });
+    const places = Place.
 
     if (!places || places.length === 0) {
        return next(
