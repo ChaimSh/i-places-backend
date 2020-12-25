@@ -3,6 +3,7 @@ const HttpError = require('../models/http-error');
 const {validationResult} = require('express-validator');
 const getCoordsForAddress = require('../util/lacation')
 const Place = require('../models/place');
+const place = require("../models/place");
 
 let DUMMY_PLACES = [{
     id: 'p1',
@@ -100,7 +101,7 @@ const createPlace = async (req, res, next) => {
     res.status(201).json({place: createdPlace});
 };
 
-const updatePlace = (req, res, next) => {
+const updatePlace = async (req, res, next) => {
     
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -110,12 +111,18 @@ const updatePlace = (req, res, next) => {
     const {title, description} = req.body;
     const placeId = req.params.pid;
 
-    const updatedPlaces = {...DUMMY_PLACES.find(p => p.id === placeId)};
-    const placeIndex = DUMMY_PLACES.findIndex(p => p.id === placeId);
+    let place;
+    try {
+        place = await Place.findById(placeId);
+    } catch (err) {
+        const error = new HttpError(
+            'Could not update place', 500
+        );
+        return next(error);
+    }
+
     updatedPlace.title = title;
     updatedPlace.description = description;
-
-    DUMMY_PLACES[placeIndex] = updatePlace;
 
     res.status(200).json({place: updatePlace});
 };
