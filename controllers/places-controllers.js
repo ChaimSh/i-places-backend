@@ -105,7 +105,9 @@ const updatePlace = async (req, res, next) => {
     
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        throw new HttpError('Invalid Inputs passed', 422);
+       return next(
+           new HttpError('Invalid Inputs passed', 422)
+       );
     }
     
     const {title, description} = req.body;
