@@ -148,6 +148,15 @@ const deletePlace = async (req, res, next) => {
         );
         return next(error);
    }
+
+    try {
+       await place.remove();
+    }  catch (err) {
+        const error = new HttpError(
+         'Could not delete place', 500
+        );
+        return next(error);
+      }
     res,status(200).json({massage: 'Deleted place.'});
 };
 
