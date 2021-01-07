@@ -79,6 +79,13 @@ const login = (req, res, next) => {
       return next(error);
   }
 
+   if (existingUser || existingUser.password !== password ) {
+       const error = new HttpError(
+           "invalid credentials", 401
+       );
+       return next(error);
+   }
+
   res.json({message: 'Logged in!'});
 };
 
