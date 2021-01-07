@@ -68,7 +68,17 @@ const signup = async (req, res, next) => {
 const login = (req, res, next) => {
   const {email, password} = req.body;
 
-  
+  let existingUser 
+
+  try {
+      existingUser = await User.findOne({email: email})
+  } catch (err) {
+      const error = new HttpError(
+          'Login did not work', 500
+      );
+      return next(error);
+  }
+
   res.json({message: 'Logged in!'});
 };
 
