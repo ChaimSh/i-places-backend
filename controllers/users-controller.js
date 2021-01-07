@@ -2,6 +2,7 @@ const uuid = require('uuid/v4');
 const {validationResult} = require('express-validator');
 const HttpError = require('../models/http-error');
 const User = require('../models/user');
+const user = require('../models/user');
 
 
 const DUMMY_USERS = [
@@ -23,7 +24,7 @@ const getUsers = async (req, res, next) => {
        );
        return next(error);
     }
-   
+   res.json({users: users.map(user => user.toObject( {getters: true} ))});
 };
 
 const signup = async (req, res, next) => {
